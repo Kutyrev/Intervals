@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <SwitchPreferenceCompat
+        app:key="fast_add_button"
+        app:title="@string/fast_add_button"/>
+
+    <Preference
+        app:key="pref_about"
+        app:title="Intervals "
+        app:summary="@string/license_terms"
+        android:icon="@drawable/app_icon"/>
+
+</PreferenceScreen>
