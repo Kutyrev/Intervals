@@ -141,8 +141,8 @@ class DetailFragment(val list: ListEntity) : Fragment(R.layout.fragment_detail),
             val eventsDiffs : LiveData<List<Long>> = viewModel.getEventsDiffByMonth(list.id)
             eventsDiffs.observe(viewLifecycleOwner, androidx.lifecycle.Observer { result ->
 
-                var points: FloatArray = FloatArray(result.size)
-                var diffs: LongArray = LongArray(result.size)
+                val points: FloatArray = FloatArray(result.size)
+                val diffs: LongArray = LongArray(result.size)
                 val dataPoints: MutableList<DataPoint> = mutableListOf()
 
                 if (result != null) {
@@ -158,8 +158,8 @@ class DetailFragment(val list: ListEntity) : Fragment(R.layout.fragment_detail),
 
                     }
 
-                    val max: Float? = points.max()
-                    val min: Float? = points.min()
+                    val max: Float? = points.maxOrNull()
+                    val min: Float? = points.minOrNull()
 
                     if (max != null && min != null && max != min) {
                         val step = (max - min) / 50
@@ -220,7 +220,7 @@ class DetailFragment(val list: ListEntity) : Fragment(R.layout.fragment_detail),
 
             if (list != null) {
 
-                var eventsForList: MutableList<EventEntity> = mutableListOf<EventEntity>()
+                val eventsForList: MutableList<EventEntity> = mutableListOf<EventEntity>()
 
                 for (curEvent in result) {
                     if (curEvent.listId == list!!.id) {
@@ -260,7 +260,7 @@ class DetailFragment(val list: ListEntity) : Fragment(R.layout.fragment_detail),
 
 
             val snackbar: Snackbar = Snackbar.make(view, getString(R.string.delete_event_snackbar), Snackbar.LENGTH_LONG)
-            snackbar.setAction(getString(R.string.snackbar_undo), View.OnClickListener { v -> undoDeleteEvent(curEvent, adapter) })
+            snackbar.setAction(getString(R.string.snackbar_undo), View.OnClickListener { undoDeleteEvent(curEvent, adapter) })
 
             snackbar.addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
 

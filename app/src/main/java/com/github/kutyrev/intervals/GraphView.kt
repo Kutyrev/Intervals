@@ -63,10 +63,10 @@ class GraphView(context: Context,
     }
 
     fun setData(newDataSet: List<DataPoint>) {
-        xMin = newDataSet.minBy { it.xVal }?.xVal ?: 0
-        xMax = newDataSet.maxBy { it.xVal }?.xVal ?: 0
-        yMin = newDataSet.minBy { it.yVal }?.yVal ?: 0
-        yMax = newDataSet.maxBy { it.yVal }?.yVal ?: 0
+        xMin = newDataSet.minByOrNull{ it.xVal }?.xVal ?: 0
+        xMax = newDataSet.maxByOrNull{ it.xVal }?.xVal ?: 0
+        yMin = newDataSet.minByOrNull{ it.yVal }?.yVal ?: 0
+        yMax = newDataSet.maxByOrNull{ it.yVal }?.yVal ?: 0
         dataSet.clear()
         dataSet.addAll(newDataSet)
         invalidate()

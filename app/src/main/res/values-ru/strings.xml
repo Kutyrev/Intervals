@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Интервалы</string>
+    <string name="app_name">Периоды</string>
     <string name="action_settings">Настройки</string>
 
     <string name="dialog_ok">OK</string>
@@ -12,7 +12,7 @@
     <string name="avg_by_month">СРД В ЭТОМ МЕСЯЦЕ: %1$s</string>
     <string name="avg_by_year">СРД В ЭТОМ ГОДУ: %1$s</string>
     <string name="avg_by_day">СРД ЗА СЕГОДНЯ: %1$s</string>
-    <string name="fast_add_button">Включить кнопку быстрого добавления события</string>
+    <string name="fast_add_button">Кнопка быстрого добавления события</string>
     <string name="graph_title">Частота в текущем месяце:</string>
     <string name="license_terms">Программирование: Dmitry Kutyrev. Иконка приложения: <a href="https://www.iconfinder.com/icons/3507754/iconoteka_time_timeline_icon">Iconoteka, time, timeline icon</a>.
         Под лицензией <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons (Attribution 3.0 Unported)</a>. Автор иконки: <a href="https://www.iconfinder.com/turbaba">Oleg Turbaba</a></string>
