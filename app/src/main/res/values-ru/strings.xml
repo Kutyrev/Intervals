@@ -16,5 +16,6 @@
     <string name="graph_title">Частота в текущем месяце:</string>
     <string name="license_terms">Программирование: Dmitry Kutyrev. Иконка приложения: <a href="https://www.iconfinder.com/icons/3507754/iconoteka_time_timeline_icon">Iconoteka, time, timeline icon</a>.
         Под лицензией <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons (Attribution 3.0 Unported)</a>. Автор иконки: <a href="https://www.iconfinder.com/turbaba">Oleg Turbaba</a></string>
+    <string name="edittext_comment_tooltip">Комментарий</string>
 
 </resources>

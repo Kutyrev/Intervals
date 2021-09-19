@@ -141,8 +141,8 @@ class DetailFragment(val list: ListEntity) : Fragment(R.layout.fragment_detail),
             val eventsDiffs : LiveData<List<Long>> = viewModel.getEventsDiffByMonth(list.id)
             eventsDiffs.observe(viewLifecycleOwner, androidx.lifecycle.Observer { result ->
 
-                val points: FloatArray = FloatArray(result.size)
-                val diffs: LongArray = LongArray(result.size)
+                val points = FloatArray(result.size)
+                val diffs = LongArray(result.size)
                 val dataPoints: MutableList<DataPoint> = mutableListOf()
 
                 if (result != null) {
@@ -209,7 +209,7 @@ class DetailFragment(val list: ListEntity) : Fragment(R.layout.fragment_detail),
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val adapter: IntervalsAdapter = IntervalsAdapter(this, requireContext())
+        val adapter = IntervalsAdapter(this, requireContext())
 
         recyclerView.adapter = adapter
         val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback(adapter, requireContext()))
@@ -247,7 +247,7 @@ class DetailFragment(val list: ListEntity) : Fragment(R.layout.fragment_detail),
     }
 
     override fun onEditEvent(curEvent: EventEntity) {
-        list?.let { activity?.let { itActivity -> DialogNewEditEvent(it, curEvent).show(itActivity.supportFragmentManager, "MyCustomFragment") } }
+        list?.let { DialogNewEditEvent(it, curEvent).show(childFragmentManager, "MyCustomFragment") }
     }
 
     override fun onDeleteEvent(curEvent: EventEntity, adapter: IntervalsAdapter) {
