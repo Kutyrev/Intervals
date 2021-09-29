@@ -31,15 +31,15 @@ class DetailFragment(val list: ListEntity) : Fragment(R.layout.fragment_detail),
 
     private val viewModel: DetailViewModel by viewModels()
 
-    var curListMode: Int = 1
+    private var curListMode: Int = 1
     private lateinit var recyclerView: RecyclerView
-    lateinit var graphView: GraphView
-    lateinit var labelview: TextView
-    lateinit var avgByMonthView : TextView
-    lateinit var avgByYearView : TextView
-    lateinit var avgByDayView : TextView
-    lateinit var fastAddBtn : FloatingActionButton
-    lateinit var labelGraphView : TextView
+    private lateinit var graphView: GraphView
+    private lateinit var labelview: TextView
+    private lateinit var avgByMonthView : TextView
+    private lateinit var avgByYearView : TextView
+    private lateinit var avgByDayView : TextView
+    private lateinit var fastAddBtn : FloatingActionButton
+    private lateinit var labelGraphView : TextView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -91,7 +91,14 @@ class DetailFragment(val list: ListEntity) : Fragment(R.layout.fragment_detail),
         }
 
         view.findViewById<FloatingActionButton>(R.id.fab_fast_add).setOnClickListener {
-            viewModel.insertNewEvent(EventEntity(list.id, Calendar.getInstance(),""))
+            if (list.withoutSeconds){
+                val today = Calendar.getInstance()
+                today.set(today.get(Calendar.YEAR), today.get(Calendar.MONTH),
+                    today.get(Calendar.DAY_OF_MONTH), today.get(Calendar.HOUR_OF_DAY),
+                    today.get(Calendar.MINUTE), 0)
+                viewModel.insertNewEvent(EventEntity(list.id, today,""))
+
+            }else viewModel.insertNewEvent(EventEntity(list.id, Calendar.getInstance(),""))
         }
 
         getStatistic()

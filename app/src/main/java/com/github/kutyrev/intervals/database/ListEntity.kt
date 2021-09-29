@@ -8,7 +8,8 @@ import androidx.room.PrimaryKey
 @Entity
 data class ListEntity (
 
-        var name:String?
+        var name:String?,
+        var withoutSeconds : Boolean
 
     ) : Parcelable{
    /* companion object {
@@ -40,13 +41,17 @@ data class ListEntity (
 
     @PrimaryKey(autoGenerate = true) var id:Int = 0
 
-    constructor(parcel: Parcel) : this(parcel.readString()) {
+    constructor(parcel: Parcel) : this(parcel.readString(),
+        parcel.readInt()==1
+    ) {
         id = parcel.readInt()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(name)
+        parcel.writeInt(if (withoutSeconds) 1 else 0)
         parcel.writeInt(id)
+
     }
 
     override fun describeContents(): Int {

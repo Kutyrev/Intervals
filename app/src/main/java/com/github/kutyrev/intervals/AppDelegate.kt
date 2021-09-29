@@ -2,6 +2,8 @@ package com.github.kutyrev.intervals
 
 import android.app.Application
 import androidx.room.Room
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.github.kutyrev.intervals.database.IntervalsDatabase
 
 class AppDelegate: Application() {
@@ -19,8 +21,16 @@ class AppDelegate: Application() {
         private val db by lazy {Room.databaseBuilder(
                 appInstance.applicationContext,
                 IntervalsDatabase::class.java, "intervals_db"
-        ).build()}
+        ).addMigrations(MIGRATION_1_2).build()}
         val repository by lazy {db.intervalsDao()}
+
+        private val MIGRATION_1_2: Migration = object : Migration(1, 2) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE ListEntity "
+                        + " ADD COLUMN withoutSeconds INTEGER DEFAULT 0 NOT NULL")
+            }
+        }
+
     }
 
 //    override fun onCreate() {

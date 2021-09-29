@@ -24,7 +24,7 @@ class MainListFragment : Fragment(R.layout.fragment_main_list), DialogNewEditLis
         recyclerView = view.findViewById<RecyclerView>(R.id.lists_recycler)
 
         view.findViewById<FloatingActionButton>(R.id.fab_main_list).setOnClickListener {
-            DialogNewEditList(ListEntity(""), true).show(childFragmentManager, "NewEditListDialog")
+            DialogNewEditList(ListEntity("", false), true).show(childFragmentManager, "NewEditListDialog")
         }
 
     }

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.DialogFragment
 import com.github.kutyrev.intervals.database.ListEntity
 
@@ -15,15 +16,17 @@ class DialogNewEditList(val curList : ListEntity, val isNew  : Boolean) : Dialog
     // Use this instance of the interface to deliver action events
     internal lateinit var listener: NewEditListDialogListener
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         val view: View = inflater.inflate(R.layout.dialog_add_edit_list, container, false)
 
         val cancelButton: Button = view.findViewById(R.id.dialog_button_cancel)
         val okButton: Button = view.findViewById(R.id.dialog_button_ok)
         val labelEditText: EditText = view.findViewById(R.id.label_edit_text)
+        val withoutSeconds : SwitchCompat = view.findViewById(R.id.checkbox_without_seconds)
 
         labelEditText.setText(curList.name)
+        withoutSeconds.isChecked = curList.withoutSeconds
 
         getDialog()!!.getWindow()?.setBackgroundDrawableResource(R.drawable.dialog_round_corner)
 
@@ -33,6 +36,7 @@ class DialogNewEditList(val curList : ListEntity, val isNew  : Boolean) : Dialog
 
         okButton.setOnClickListener {
                 curList.name =  labelEditText.text.toString()
+                curList.withoutSeconds = withoutSeconds.isChecked
                 if (isNew) {
                     listener.onDialogPositiveClickNewEditList(curList, isNew)
                 }else{

@@ -22,9 +22,9 @@ class DialogNewEditEvent(val curList: ListEntity, val curEvent : EventEntity? = 
 
     var today = Calendar.getInstance()
     internal lateinit var listener: NewEventDialogListener
-    val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         getDialog()!!.getWindow()?.setBackgroundDrawableResource(R.drawable.dialog_round_corner)
 
         val view: View = inflater.inflate(R.layout.dialog_new_event, container, false)
@@ -37,6 +37,8 @@ class DialogNewEditEvent(val curList: ListEntity, val curEvent : EventEntity? = 
         val commentEditText : EditText = view.findViewById(R.id.comment_edit_text)
         val secondsButton : Button = view.findViewById(R.id.seconds_button)
 
+        if (curList.withoutSeconds)secondsButton.isEnabled = false
+
 
         var year = today.get(Calendar.YEAR)
         var month = today.get(Calendar.MONTH)
@@ -45,6 +47,10 @@ class DialogNewEditEvent(val curList: ListEntity, val curEvent : EventEntity? = 
         var minute = today.get(Calendar.MINUTE)
         var second = today.get(Calendar.SECOND)
 
+        if (curList.withoutSeconds){
+            second = 0
+            today.set(year, month, day, hourOfDay, minute, second)
+        }
 
         if(curEvent?.dateStamp != null){
             year = curEvent.dateStamp!!.get(Calendar.YEAR)
@@ -53,6 +59,7 @@ class DialogNewEditEvent(val curList: ListEntity, val curEvent : EventEntity? = 
             hourOfDay = curEvent.dateStamp!!.get(Calendar.HOUR_OF_DAY)
             minute = curEvent.dateStamp!!.get(Calendar.MINUTE)
             second = curEvent.dateStamp!!.get(Calendar.SECOND)
+            if (curList.withoutSeconds) second = 0
             commentEditText.setText(curEvent.comment)
             today.set(year, month, day, hourOfDay, minute, second)
         }
