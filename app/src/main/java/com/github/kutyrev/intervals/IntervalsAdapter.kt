@@ -85,7 +85,7 @@ class IntervalsAdapter(val detailFragment: DetailFragment, val context: Context)
         val current = getItem(position)
         var stringDateRepr = ""
         if (position > 0){
-            var diffDate : Map<TimeUnit?, Long>? = mapOf()
+            var diffDate : Map<TimeUnit?, Long>?
             val beforeCurrent = getItem(position - 1)
             diffDate = current.dateStamp?.let { beforeCurrent.dateStamp?.let { it1 -> computeDiffDates(it1.time, it.time) } }
             var intervalStringRepr = StringBuilder()

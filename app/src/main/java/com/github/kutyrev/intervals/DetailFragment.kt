@@ -102,6 +102,31 @@ class DetailFragment(val list: ListEntity) : Fragment(R.layout.fragment_detail),
         }
 
         getStatistic()
+
+        val adapter = IntervalsAdapter(this, requireContext())
+
+        recyclerView.adapter = adapter
+        val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback(adapter, requireContext()))
+        itemTouchHelper.attachToRecyclerView(recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+
+        viewModel.eventsLifeData.observe(viewLifecycleOwner, androidx.lifecycle.Observer { result ->
+
+            if (list != null) {
+
+                val eventsForList: MutableList<EventEntity> = mutableListOf<EventEntity>()
+
+                for (curEvent in result) {
+                    if (curEvent.listId == list!!.id) {
+                        eventsForList.add(curEvent)
+                    }
+                }
+                adapter?.submitList(eventsForList)
+                //notifyDataSetChanged()
+            }
+
+        })
+
     }
 
     private fun getStatistic() {
@@ -211,38 +236,6 @@ class DetailFragment(val list: ListEntity) : Fragment(R.layout.fragment_detail),
         avgByDayView.visibility = View.GONE
         labelGraphView.visibility = View.GONE
         recyclerView.visibility = View.VISIBLE
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        val adapter = IntervalsAdapter(this, requireContext())
-
-        recyclerView.adapter = adapter
-        val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback(adapter, requireContext()))
-        itemTouchHelper.attachToRecyclerView(recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(context)
-
-        viewModel.eventsLifeData.observe(viewLifecycleOwner, androidx.lifecycle.Observer { result ->
-
-            if (list != null) {
-
-                val eventsForList: MutableList<EventEntity> = mutableListOf<EventEntity>()
-
-                for (curEvent in result) {
-                    if (curEvent.listId == list!!.id) {
-                        eventsForList.add(curEvent)
-                    }
-                }
-                adapter?.submitList(eventsForList)
-                //notifyDataSetChanged()
-            }
-
-        })
-
-
-
-
     }
 
     override fun onAddNewEventDialogPositiveClickNewItem(newEvent: EventEntity) {

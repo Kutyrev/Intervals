@@ -27,12 +27,6 @@ class MainListFragment : Fragment(R.layout.fragment_main_list), DialogNewEditLis
             DialogNewEditList(ListEntity("", false), true).show(childFragmentManager, "NewEditListDialog")
         }
 
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-
         adapter = ListEntityAdapter({ curList -> onListElementClick(curList)}, {curList, position -> onListSwipeDelete(curList, position)})
         val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback(adapter, requireContext()))
         itemTouchHelper.attachToRecyclerView(recyclerView)

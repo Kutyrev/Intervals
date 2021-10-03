@@ -18,4 +18,5 @@
     <string name="edittext_comment_tooltip">Comment</string>
     <string name="without_seconds_dialog">Without seconds</string>
     <string name="list_edit_hint">List name</string>
+    <string name="main_list_content_desc">Main intervals groups list</string>
 </resources>

@@ -7,7 +7,7 @@ import androidx.work.WorkerParameters
 class DatabaseWorker(appContext: Context, workerParams: WorkerParameters):
     Worker(appContext, workerParams)  {
 
-    val KEY_RESULT = "result"
+    //val KEY_RESULT = "result"
 
     override fun doWork(): Result {
 

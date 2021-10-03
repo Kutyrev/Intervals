@@ -6,6 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:contentDescription="@string/main_list_content_desc"
         android:id="@+id/lists_recycler"
         tools:listitem="@layout/list_recyclerview_item"
         android:layout_width="match_parent"

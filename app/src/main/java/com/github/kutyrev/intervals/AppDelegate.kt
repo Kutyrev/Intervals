@@ -1,10 +1,14 @@
 package com.github.kutyrev.intervals
 
 import android.app.Application
+import android.os.StrictMode
+import android.os.StrictMode.ThreadPolicy
+import android.os.StrictMode.VmPolicy
 import androidx.room.Room
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.github.kutyrev.intervals.database.IntervalsDatabase
+
 
 class AppDelegate: Application() {
 
@@ -33,23 +37,28 @@ class AppDelegate: Application() {
 
     }
 
-//    override fun onCreate() {
-//        super.onCreate()
-//
-//        /*db by lazy {Room.databaseBuilder(
-//                applicationContext,
-//                IntervalsDatabase::class.java, "intervals_db"
-//        ).build()}
-//
-//        val db by lazy Room.databaseBuilder(
-//                applicationContext,
-//                IntervalsDatabase::class.java, "intervals_db"
-//        ).build();
-//
-//        val repository by lazy {db.intervalsDao()}*/
-//
-//
-//    }
-//
+    override fun onCreate() {
+
+        if (BuildConfig.DEBUG) {
+            StrictMode.setThreadPolicy(
+                ThreadPolicy.Builder()
+                    .detectDiskReads()
+                    .detectDiskWrites()
+                    .detectNetwork() // or .detectAll() for all detectable problems
+                    .penaltyLog()
+                    .build()
+            )
+            StrictMode.setVmPolicy(
+                VmPolicy.Builder()
+                    .detectLeakedSqlLiteObjects()
+                    .detectLeakedClosableObjects()
+                    .penaltyLog()
+                    .penaltyDeath()
+                    .build()
+            )
+        }
+
+        super.onCreate()
+    }
 
 }

@@ -19,4 +19,5 @@
     <string name="edittext_comment_tooltip">Комментарий</string>
     <string name="without_seconds_dialog">Без секунд</string>
     <string name="list_edit_hint">Имя списка</string>
+    <string name="main_list_content_desc">Список основных групп интервалов</string>
 </resources>
