@@ -20,4 +20,8 @@
     <string name="without_seconds_dialog">Без секунд</string>
     <string name="list_edit_hint">Имя списка</string>
     <string name="main_list_content_desc">Список основных групп интервалов</string>
+    <string name="days">ДНЕЙ</string>
+    <string name="hours">ЧАСОВ</string>
+    <string name="minutes">МИНУТ</string>
+    <string name="seconds">СЕКУНД</string>
 </resources>

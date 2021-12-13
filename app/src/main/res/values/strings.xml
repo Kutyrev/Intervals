@@ -19,4 +19,8 @@
     <string name="without_seconds_dialog">Without seconds</string>
     <string name="list_edit_hint">List name</string>
     <string name="main_list_content_desc">Main intervals groups list</string>
+    <string name="days">DAYS</string>
+    <string name="hours">HOURS</string>
+    <string name="minutes">MINUTES</string>
+    <string name="seconds">SECONDS</string>
 </resources>

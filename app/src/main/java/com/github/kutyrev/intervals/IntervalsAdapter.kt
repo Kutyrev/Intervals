@@ -1,6 +1,12 @@
 package com.github.kutyrev.intervals
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.Typeface
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +19,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-fun computeDiffDates(date1: Date, date2: Date): Map<TimeUnit?, Long>? {
+
+fun computeDiffDates(date1: Date, date2: Date): Map<TimeUnit?, Long> {
     val diffInMillies = date2.time - date1.time
 
     //create the list
@@ -27,7 +34,8 @@ fun computeDiffDates(date1: Date, date2: Date): Map<TimeUnit?, Long>? {
 
         if (unit == TimeUnit.NANOSECONDS
             || unit == TimeUnit.MILLISECONDS
-            || unit == TimeUnit.MICROSECONDS) continue
+            || unit == TimeUnit.MICROSECONDS
+        ) continue
 
         //calculate difference in millisecond
         val diff: Long = unit?.convert(milliesRest, TimeUnit.MILLISECONDS) ?: 0
@@ -40,9 +48,10 @@ fun computeDiffDates(date1: Date, date2: Date): Map<TimeUnit?, Long>? {
     return result
 }
 
-class IntervalsAdapter(val detailFragment: DetailFragment, val context: Context) : ListAdapter<EventEntity, EventEntityHolder>(
-    EVENTENTITY_COMPARATOR
-), SwipeToDeleteCallback.OnSwipeDeleteListener {
+class IntervalsAdapter(val detailFragment: DetailFragment, val context: Context) :
+    ListAdapter<EventEntity, EventEntityHolder>(
+        EVENTENTITY_COMPARATOR
+    ), SwipeToDeleteCallback.OnSwipeDeleteListener {
 
     internal lateinit var listener: EventActionsListener
 
@@ -62,7 +71,7 @@ class IntervalsAdapter(val detailFragment: DetailFragment, val context: Context)
         super.onAttachedToRecyclerView(recyclerView)
         try {
             listener = detailFragment as EventActionsListener
-        }catch (e: ClassCastException){
+        } catch (e: ClassCastException) {
 
         }
     }
@@ -70,13 +79,13 @@ class IntervalsAdapter(val detailFragment: DetailFragment, val context: Context)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventEntityHolder {
 
 
-      /*  return EventEntityHolder.create(parent,  object : EventItemClickListener{
-            override fun onEditEvent(position: Int) {
-                println(getItem(position).dateStamp)
+        /*  return EventEntityHolder.create(parent,  object : EventItemClickListener{
+              override fun onEditEvent(position: Int) {
+                  println(getItem(position).dateStamp)
 
-            }
+              }
 
-        })*/
+          })*/
 
         return EventEntityHolder.create(parent, listener)
     }
@@ -84,20 +93,40 @@ class IntervalsAdapter(val detailFragment: DetailFragment, val context: Context)
     override fun onBindViewHolder(holder: EventEntityHolder, position: Int) {
         val current = getItem(position)
         var stringDateRepr = ""
-        if (position > 0){
-            var diffDate : Map<TimeUnit?, Long>?
+        var isNextDay = false
+
+        if (position > 0) {
+            val diffDate: Map<TimeUnit?, Long>?
             val beforeCurrent = getItem(position - 1)
-            diffDate = current.dateStamp?.let { beforeCurrent.dateStamp?.let { it1 -> computeDiffDates(it1.time, it.time) } }
-            var intervalStringRepr = StringBuilder()
+            diffDate = current.dateStamp?.let {
+                beforeCurrent.dateStamp?.let { it1 ->
+                    if (it.get(Calendar.DAY_OF_MONTH) != it1.get(Calendar.DAY_OF_MONTH)) {
+                        isNextDay = true
+                    }
+                    computeDiffDates(it1.time, it.time)
+                }
+            }
+
+            val intervalStringRepr = StringBuilder()
 
             if (diffDate != null) {
-                for(curUnit in diffDate){
-                    intervalStringRepr.append(curUnit.key?.name).append(": ").append(curUnit.value.toString()).append(" ")
+                for (curUnit in diffDate) {
+
+                    val timeUnitStr: String? = when(curUnit.key){
+                        TimeUnit.DAYS -> context.getString(R.string.days)
+                        TimeUnit.HOURS -> context.getString(R.string.hours)
+                        TimeUnit.MINUTES -> context.getString(R.string.minutes)
+                        TimeUnit.SECONDS -> context.getString(R.string.seconds)
+                        else -> curUnit.key?.name
+                    }
+
+                    intervalStringRepr.append(timeUnitStr).append(": ")
+                        .append(curUnit.value.toString()).append(" ")
                 }
             }
             stringDateRepr = intervalStringRepr.toString()
         }
-        holder.bind(current.comment, current.dateStamp, stringDateRepr, current)
+        holder.bind(current.comment, current.dateStamp, stringDateRepr, current, isNextDay)
     }
 
     override fun onSwipeDelete(position: Int) {
@@ -106,7 +135,7 @@ class IntervalsAdapter(val detailFragment: DetailFragment, val context: Context)
         editableList.remove(current)
         submitList(editableList)
 
-        if (listener != null){
+        if (listener != null) {
             listener.onDeleteEvent(current, this)
         }
     }
@@ -119,27 +148,51 @@ class IntervalsAdapter(val detailFragment: DetailFragment, val context: Context)
 
 }
 
-class EventEntityHolder(itemView: View, private val editListener : IntervalsAdapter.EventActionsListener) : RecyclerView.ViewHolder(itemView){
+class EventEntityHolder(
+    itemView: View,
+    private val editListener: IntervalsAdapter.EventActionsListener
+) : RecyclerView.ViewHolder(itemView) {
 
     private val commentView: TextView = itemView.findViewById(R.id.comment)
     private val dateStampView: TextView = itemView.findViewById(R.id.datestamp)
-    private val diffBetweenView : TextView = itemView.findViewById(R.id.diffbetween)
+    private val diffBetweenView: TextView = itemView.findViewById(R.id.diffbetween)
 
     private val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 
-    fun bind(text: String?, dateStamp: Calendar?, diffDate: String, event: EventEntity) {
+    fun bind(
+        text: String?,
+        dateStamp: Calendar?,
+        diffDate: String,
+        event: EventEntity,
+        isNextDay: Boolean
+    ) {
         commentView.text = text
         diffBetweenView.text = diffDate
 
-        try {
-            if (dateStamp != null) {
-                dateStampView.text = dateFormat.format(dateStamp.time)
+        //try {
+        if (dateStamp != null) {
+            val str = SpannableStringBuilder(dateFormat.format(dateStamp.time))
+            if (isNextDay) {
+                str.setSpan(
+                    StyleSpan(Typeface.BOLD),
+                    0,
+                    str.length,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+                str.setSpan(
+                    ForegroundColorSpan(Color.parseColor("#FF018786")),
+                    0, str.length,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
             }
-        } catch (e: IllegalArgumentException) {
+            dateStampView.text = str
 
         }
+        // } catch (e: IllegalArgumentException) {
 
-        itemView.setOnClickListener{
+        //}
+
+        itemView.setOnClickListener {
             editListener.onEditEvent(event)
         }
 
@@ -147,9 +200,12 @@ class EventEntityHolder(itemView: View, private val editListener : IntervalsAdap
 
 
     companion object {
-        fun create(parent: ViewGroup, editListener : IntervalsAdapter.EventActionsListener): EventEntityHolder {
+        fun create(
+            parent: ViewGroup,
+            editListener: IntervalsAdapter.EventActionsListener
+        ): EventEntityHolder {
             val view: View = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.recyclerview_item, parent, false)
+                .inflate(R.layout.recyclerview_item, parent, false)
 
             return EventEntityHolder(view, editListener)
 

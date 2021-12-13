@@ -1,5 +1,6 @@
 package com.github.kutyrev.intervals
 
+import android.content.Context
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -33,14 +34,19 @@ class DateDiff (diffInMillies : Long) {
 
     }
 
-    override fun toString(): String {
+    fun toString(context : Context?): String {
 
         val intervalStringRepr = StringBuilder()
 
-        if (diffInUnits != null) {
-            for(curUnit in diffInUnits){
-                intervalStringRepr.append(curUnit.key?.name).append(": ").append(curUnit.value.toString()).append(" ")
+        for(curUnit in diffInUnits){
+            val timeUnitStr: String? = when(curUnit.key){
+                TimeUnit.DAYS -> context?.getString(R.string.days)
+                TimeUnit.HOURS -> context?.getString(R.string.hours)
+                TimeUnit.MINUTES -> context?.getString(R.string.minutes)
+                TimeUnit.SECONDS -> context?.getString(R.string.seconds)
+                else -> curUnit.key?.name
             }
+            intervalStringRepr.append(timeUnitStr).append(": ").append(curUnit.value.toString()).append(" ")
         }
 
         return intervalStringRepr.toString()

@@ -60,7 +60,7 @@ class DetailFragment(val list: ListEntity) : Fragment(R.layout.fragment_detail),
     */
 
         labelview = view.findViewById(R.id.label)
-        labelview.setText(list?.name)
+        labelview.setText(list.name)
         labelview.setOnClickListener { DialogNewEditList(list, false).show(childFragmentManager, "NewEditListDialog") }
 
 
@@ -112,18 +112,15 @@ class DetailFragment(val list: ListEntity) : Fragment(R.layout.fragment_detail),
 
         viewModel.eventsLifeData.observe(viewLifecycleOwner, androidx.lifecycle.Observer { result ->
 
-            if (list != null) {
+            val eventsForList: MutableList<EventEntity> = mutableListOf<EventEntity>()
 
-                val eventsForList: MutableList<EventEntity> = mutableListOf<EventEntity>()
-
-                for (curEvent in result) {
-                    if (curEvent.listId == list!!.id) {
-                        eventsForList.add(curEvent)
-                    }
+            for (curEvent in result) {
+                if (curEvent.listId == list.id) {
+                    eventsForList.add(curEvent)
                 }
-                adapter?.submitList(eventsForList)
-                //notifyDataSetChanged()
             }
+            adapter.submitList(eventsForList)
+            //notifyDataSetChanged()
 
         })
 
@@ -198,7 +195,7 @@ class DetailFragment(val list: ListEntity) : Fragment(R.layout.fragment_detail),
                         points.forEachIndexed { index, l -> dataPoints.add(DataPoint(index, (l / step).toInt())) }
                     }
 
-                    avgByMonthView.text = getString(R.string.avg_by_month, DateDiff(diffs.average().toLong()).toString())
+                    avgByMonthView.text = getString(R.string.avg_by_month, DateDiff(diffs.average().toLong()).toString(context))
                     graphView.setData(dataPoints)
 
                 }
@@ -207,13 +204,13 @@ class DetailFragment(val list: ListEntity) : Fragment(R.layout.fragment_detail),
 
         val avgByYear: LiveData<Long> = viewModel.getAvgEventsDiffByYear(list.id)
         avgByYear.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            if (it != null) avgByYearView.text = getString(R.string.avg_by_year, DateDiff(it).toString())
+            if (it != null) avgByYearView.text = getString(R.string.avg_by_year, DateDiff(it).toString(context))
             else avgByYearView.text = getString(R.string.avg_by_year, "—")
         })
 
         val avgByDay: LiveData<Long> = viewModel.getAvgEventsDiffByDay(list.id)
         avgByDay.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            if (it != null) avgByDayView.text = getString(R.string.avg_by_day, DateDiff(it).toString())
+            if (it != null) avgByDayView.text = getString(R.string.avg_by_day, DateDiff(it).toString(context))
             else avgByDayView.text = getString(R.string.avg_by_day, "—")
         })
 
@@ -247,7 +244,7 @@ class DetailFragment(val list: ListEntity) : Fragment(R.layout.fragment_detail),
     }
 
     override fun onEditEvent(curEvent: EventEntity) {
-        list?.let { DialogNewEditEvent(it, curEvent).show(childFragmentManager, "MyCustomFragment") }
+        list.let { DialogNewEditEvent(it, curEvent).show(childFragmentManager, "MyCustomFragment") }
     }
 
     override fun onDeleteEvent(curEvent: EventEntity, adapter: IntervalsAdapter) {
