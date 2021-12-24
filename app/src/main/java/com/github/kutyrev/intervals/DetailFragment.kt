@@ -126,6 +126,8 @@ class DetailFragment(val list: ListEntity) : Fragment(R.layout.fragment_detail),
 
         })
 
+        if(adapter.currentList.size > 0)recyclerView.smoothScrollToPosition(adapter.currentList.size-1)
+
     }
 
     private fun getStatistic() {
