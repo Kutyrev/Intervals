@@ -120,6 +120,8 @@ class DetailFragment(val list: ListEntity) : Fragment(R.layout.fragment_detail),
                 }
             }
             adapter.submitList(eventsForList)
+
+            if(eventsForList.size > 0)recyclerView.smoothScrollToPosition(eventsForList.size-1)
             //notifyDataSetChanged()
 
         })
