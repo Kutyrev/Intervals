@@ -24,4 +24,5 @@
     <string name="hours">ЧАСОВ</string>
     <string name="minutes">МИНУТ</string>
     <string name="seconds">СЕКУНД</string>
+    <string name="delete_list_dialog_confirm">Удалить список %s ?</string>
 </resources>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="4dp"
+    android:layout_margin="@dimen/dialog_margin_short"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:textSize="20sp"
+        android:textSize="@dimen/dialog_date_text_size"
         tools:text="01/02/2021 11:00:00" />
 
     <LinearLayout
@@ -49,14 +49,14 @@
             android:layout_weight="1"
             app:icon="@drawable/ic_baseline_timer_24"
             app:iconGravity="textStart" />
-
     </LinearLayout>
 
     <EditText
         android:id="@+id/comment_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/edittext_comment_tooltip" />
+        android:hint="@string/edittext_comment_tooltip"
+        android:importantForAutofill="no" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -66,19 +66,17 @@
 
         <Button
             android:id="@+id/dialog_button_ok"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:text="@string/dialog_ok"
-            style="?android:attr/buttonBarButtonStyle" />
+            android:layout_marginEnd="@dimen/margin_end_std"
+            android:text="@string/dialog_ok" />
 
         <Button
             android:id="@+id/dialog_button_cancel"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/dialog_cancel"
-            style="?android:attr/buttonBarButtonStyle" />
-
+            android:text="@string/dialog_cancel" />
     </LinearLayout>
-
 </LinearLayout>

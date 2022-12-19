@@ -10,5 +10,4 @@
         app:title="Intervals "
         app:summary="@string/license_terms"
         android:icon="@drawable/app_icon"/>
-
 </PreferenceScreen>

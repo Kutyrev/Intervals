@@ -3,18 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
-    android:paddingVertical="12dp"
+    android:layout_margin="@dimen/margin_short"
+    android:paddingVertical="@dimen/recycler_padding_vert"
     android:background="@color/white"
-    android:elevation="6dp"
+    android:elevation="@dimen/recycler_elevation"
     android:orientation="horizontal">
 
     <TextView
         android:id="@+id/item_label_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
-
+        android:textSize="@dimen/recycler_item_text_size"
         tools:text="Label" />
-
 </LinearLayout>

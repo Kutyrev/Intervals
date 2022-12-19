@@ -11,37 +11,37 @@
         android:id="@+id/textview_graph_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="4dp"
+        android:layout_marginHorizontal="@dimen/margin_short"
         android:text="@string/graph_title"
         android:visibility="gone" />
 
-    <com.github.kutyrev.intervals.GraphView
+    <com.github.kutyrev.intervals.features.graph.GraphView
         android:id="@+id/graph_view"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_margin="4dp"
+        android:layout_height="@dimen/graph_height"
+        android:layout_margin="@dimen/margin_short"
         android:visibility="gone" />
 
     <TextView
         android:id="@+id/textview_avg_by_day"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginHorizontal="4dp"
+        android:layout_marginTop="@dimen/margin_short"
+        android:layout_marginHorizontal="@dimen/margin_short"
         android:visibility="gone" />
 
     <TextView
         android:id="@+id/textview_avg_by_month"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="4dp"
+        android:layout_marginHorizontal="@dimen/margin_short"
         android:visibility="gone" />
 
     <TextView
         android:id="@+id/textview_avg_by_year"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="4dp"
+        android:layout_marginHorizontal="@dimen/margin_short"
         android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -49,5 +49,4 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/recyclerview_item" />
-
 </LinearLayout>

@@ -28,7 +28,7 @@
             android:id="@+id/dialog_button_ok"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="@dimen/margin_end_std"
             android:text="@string/dialog_ok"
             style="?android:attr/buttonBarButtonStyle" />
 
@@ -38,7 +38,5 @@
             android:layout_height="wrap_content"
             android:text="@string/dialog_cancel"
             style="?android:attr/buttonBarButtonStyle" />
-
     </LinearLayout>
-
 </LinearLayout>

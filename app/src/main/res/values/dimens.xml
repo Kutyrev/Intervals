@@ -1,3 +1,12 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="margin_end_std">16dp</dimen>
+    <dimen name="dialog_margin_short">4dp</dimen>
+    <dimen name="dialog_date_text_size">20sp</dimen>
+    <dimen name="datails_label_text_size">18sp</dimen>
+    <dimen name="margin_short">4dp</dimen>
+    <dimen name="graph_height">200dp</dimen>
+    <dimen name="recycler_item_text_size">24sp</dimen>
+    <dimen name="recycler_padding_vert">12dp</dimen>
+    <dimen name="recycler_elevation">6dp</dimen>
 </resources>
