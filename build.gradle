@@ -16,6 +16,7 @@ buildscript {
 
 plugins {
     id 'com.google.dagger.hilt.android' version '2.44' apply false
+    id "io.gitlab.arturbosch.detekt" version "1.22.0"
 }
 
 allprojects {
@@ -27,4 +28,10 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+detekt {
+    toolVersion = "1.22.0"
+    config = files("config/detekt/detekt.yml")
+    buildUponDefaultConfig = true
 }
