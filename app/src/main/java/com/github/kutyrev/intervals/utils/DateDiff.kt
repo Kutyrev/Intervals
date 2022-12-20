@@ -27,7 +27,7 @@ class DateDiff (diffInMillis : Long) {
             //calculate difference in millisecond
             val diff: Long = unit?.convert(milliesRest, TimeUnit.MILLISECONDS) ?: 0
             val diffInMilliesForUnit: Long = unit?.toMillis(diff) ?: 0
-            milliesRest = milliesRest - diffInMilliesForUnit
+            milliesRest -= diffInMilliesForUnit
 
             //put the result in the map
             diffInUnits[unit] = diff

@@ -5,7 +5,6 @@
     <string name="dialog_ok">OK</string>
     <string name="dialog_cancel">Cancel</string>
     <string name="add_new_list">Add new list</string>
-    <string name="edit_list">Edit the list</string>
     <string name="delete_event_snackbar">Delete event</string>
     <string name="snackbar_undo">Undo</string>
     <string name="avg_by_month">AVG FOR THIS MONTH: %1$s</string>
@@ -24,4 +23,6 @@
     <string name="minutes">MINUTES</string>
     <string name="seconds">SECONDS</string>
     <string name="delete_list_dialog_confirm">Delete list %s ?</string>
+    <string name="fab_content_desc">Add new event</string>
+    <string name="fast_add_fab_content_desc">Fast add new event</string>
 </resources>

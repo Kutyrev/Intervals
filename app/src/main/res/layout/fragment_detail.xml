@@ -52,7 +52,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        app:srcCompat="@android:drawable/ic_input_add"
+        android:contentDescription="@string/fab_content_desc" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_fast_add"
@@ -61,8 +62,9 @@
         android:layout_gravity="top|end"
         android:layout_margin="@dimen/fab_margin"
         android:visibility="gone"
-        android:translationY="-16dp"
+        android:translationY="@dimen/fab_translation_y"
         app:layout_anchor="@id/fab_detail"
-        app:srcCompat="@android:drawable/ic_media_next" />
+        app:srcCompat="@android:drawable/ic_media_next"
+        android:contentDescription="@string/fast_add_fab_content_desc" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

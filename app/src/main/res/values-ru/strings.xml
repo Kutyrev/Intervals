@@ -6,7 +6,6 @@
     <string name="dialog_ok">OK</string>
     <string name="dialog_cancel">Отмена</string>
     <string name="add_new_list">Добавить новый список</string>
-    <string name="edit_list">Редактировать список</string>
     <string name="delete_event_snackbar">Удалить событие</string>
     <string name="snackbar_undo">Отмена</string>
     <string name="avg_by_month">СРД В ЭТОМ МЕСЯЦЕ: %1$s</string>
@@ -25,4 +24,6 @@
     <string name="minutes">МИНУТ</string>
     <string name="seconds">СЕКУНД</string>
     <string name="delete_list_dialog_confirm">Удалить список %s ?</string>
+    <string name="fab_content_desc">Добавить новое событие</string>
+    <string name="fast_add_fab_content_desc">Быстро добавить новое событие</string>
 </resources>

@@ -9,14 +9,15 @@
         android:id="@+id/label_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="@string/list_edit_hint"
         android:importantForAutofill="no"
-        android:hint="@string/list_edit_hint" />
+        android:inputType="text" />
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/checkbox_without_seconds"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/without_seconds_dialog"/>
+        android:text="@string/without_seconds_dialog" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -25,18 +26,18 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/dialog_button_ok"
+            android:id="@+id/dialog_button_cancel"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/margin_end_std"
-            android:text="@string/dialog_ok"
-            style="?android:attr/buttonBarButtonStyle" />
+            android:text="@string/dialog_cancel" />
 
         <Button
-            android:id="@+id/dialog_button_cancel"
+            android:id="@+id/dialog_button_ok"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/dialog_cancel"
-            style="?android:attr/buttonBarButtonStyle" />
+            android:text="@string/dialog_ok" />
     </LinearLayout>
 </LinearLayout>

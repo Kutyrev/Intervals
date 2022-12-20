@@ -12,6 +12,8 @@ import androidx.fragment.app.DialogFragment
 import com.github.kutyrev.intervals.R
 import com.github.kutyrev.intervals.datasource.database.ListEntity
 
+private const val EVENT_DIAL_EXCEPTION_TEXT = " must implement NewEditListDialogListener"
+
 class DialogNewEditList(private val curList: ListEntity, private val isNew: Boolean) : DialogFragment() {
 
     // Use this instance of the interface to deliver action events
@@ -28,7 +30,7 @@ class DialogNewEditList(private val curList: ListEntity, private val isNew: Bool
         labelEditText.setText(curList.name)
         withoutSeconds.isChecked = curList.withoutSeconds
 
-        getDialog()!!.getWindow()?.setBackgroundDrawableResource(R.drawable.dialog_round_corner)
+        dialog!!.window?.setBackgroundDrawableResource(R.drawable.dialog_round_corner)
 
         cancelButton.setOnClickListener{
             dialog?.cancel()
@@ -60,7 +62,7 @@ class DialogNewEditList(private val curList: ListEntity, private val isNew: Bool
         } catch (e: ClassCastException) {
             // The activity doesn't implement the interface, throw exception
             throw ClassCastException((context.toString() +
-                    " must implement NewEditListDialogListener"))
+                    EVENT_DIAL_EXCEPTION_TEXT))
         }
     }
 

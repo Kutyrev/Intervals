@@ -8,6 +8,7 @@ import com.github.kutyrev.intervals.datasource.database.ListEntity
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -16,28 +17,28 @@ class DefaultDatabaseRepository @Inject constructor(
     @IoDispatcher private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : DatabaseRepository {
 
-    override fun getAllEvents(): Flow<List<EventEntity>> = intervalsDao.getAllEvents()
+    override fun getAllEvents(): Flow<List<EventEntity>> = intervalsDao.getAllEvents().flowOn(dispatcher)
 
     override fun getAllEventsByList(listIds: IntArray): Flow<List<EventEntity>> =
-        intervalsDao.getAllEventsByList(listIds)
+        intervalsDao.getAllEventsByList(listIds).flowOn(dispatcher)
 
     override fun getEventsBetweenDates(
         listId: Int, firstDate: Long, secondDate: Long
     ): Flow<List<EventEntity>> = intervalsDao.getEventsBetweenDates(
         listId, firstDate, secondDate
-    )
+    ).flowOn(dispatcher)
 
     override fun getAvgDiffBetweenDates(
         listId: Int, firstDate: Long, secondDate: Long
     ): Flow<Long> = intervalsDao.getAvgDiffBetweenDates(
         listId, firstDate, secondDate
-    )
+    ).flowOn(dispatcher)
 
     override fun getDiffBetweenDates(
         listId: Int, firstDate: Long, secondDate: Long
     ): Flow<List<Long>> = intervalsDao.getDiffBetweenDates(
         listId, firstDate, secondDate
-    )
+    ).flowOn(dispatcher)
 
     override suspend fun insertAllEvents(vararg events: EventEntity) = withContext(dispatcher) {
         intervalsDao.insertAllEvents(*events)
@@ -53,9 +54,7 @@ class DefaultDatabaseRepository @Inject constructor(
 
     override fun getListsAndEvents(): List<ListAndEvent> = intervalsDao.getListsAndEvents()
 
-
-    override fun getAllLists(): Flow<List<ListEntity>> = intervalsDao.getAllLists()
-
+    override fun getAllLists(): Flow<List<ListEntity>> = intervalsDao.getAllLists().flowOn(dispatcher)
 
     override suspend fun insertAllLists(vararg eventLists: ListEntity) = withContext(dispatcher) {
         intervalsDao.insertAllLists(*eventLists)

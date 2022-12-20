@@ -10,8 +10,13 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.github.kutyrev.intervals.R
 
-class SwipeToDeleteCallback(private val listener: OnSwipeDeleteListener, context : Context) : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
-    private val background = ColorDrawable(0xffff6666.toInt())
+private const val BACK_COLOR = 0xffff6666
+private const val BACK_CORNER_OFFSET = 20
+private const val START_MARGINS = 0
+
+class SwipeToDeleteCallback(private val listener: OnSwipeDeleteListener, context : Context) : ItemTouchHelper.SimpleCallback(
+    0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+    private val background = ColorDrawable(BACK_COLOR.toInt())
     private val deleteIcon: Drawable? = ContextCompat.getDrawable(context,
         R.drawable.ic_baseline_delete_24
     )
@@ -28,10 +33,10 @@ class SwipeToDeleteCallback(private val listener: OnSwipeDeleteListener, context
     override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
         val itemView: View = viewHolder.itemView
-        val backgroundCornerOffset: Int = 20
-        var iconMargin: Int = 0
-        var iconTop: Int = 0
-        var iconBottom: Int = 0
+        val backgroundCornerOffset: Int = BACK_CORNER_OFFSET
+        var iconMargin: Int = START_MARGINS
+        var iconTop: Int = START_MARGINS
+        var iconBottom: Int = START_MARGINS
 
         if (deleteIcon != null) {
             iconMargin = (itemView.height - deleteIcon.intrinsicHeight) / 2
@@ -64,7 +69,7 @@ class SwipeToDeleteCallback(private val listener: OnSwipeDeleteListener, context
                         itemView.top, itemView.right, itemView.bottom)
             }
             else -> { // view is unSwiped
-                background.setBounds(0, 0, 0, 0)
+                background.setBounds(START_MARGINS, START_MARGINS, START_MARGINS, START_MARGINS)
             }
         }
         background.draw(c)

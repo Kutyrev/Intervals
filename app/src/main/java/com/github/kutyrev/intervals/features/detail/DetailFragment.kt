@@ -62,12 +62,6 @@ class DetailFragment(val list: ListEntity) : Fragment(R.layout.fragment_detail),
         fastAddBtn = view.findViewById<FloatingActionButton>(R.id.fab_fast_add)
         labelGraphView = view.findViewById<TextView>(R.id.textview_graph_title)
 
-        /*    val bundle = arguments
-            if (bundle != null) {
-                val list = bundle.getParcelable<ListEntity>("list")
-            }
-    */
-
         labelview = view.findViewById(R.id.label)
         labelview.setText(list.name)
         labelview.setOnClickListener {

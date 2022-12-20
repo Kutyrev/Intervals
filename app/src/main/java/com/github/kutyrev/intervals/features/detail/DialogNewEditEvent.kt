@@ -19,6 +19,10 @@ import com.github.kutyrev.intervals.utils.DATE_PATTERN
 import java.text.SimpleDateFormat
 import java.util.*
 
+private const val MIN_SECONDS_VALUE = 0
+private const val MAX_SECONDS_VALUE = 59
+private const val EVENT_DIAL_EXCEPTION_TEXT = " must implement NewEventDialogListener"
+
 class DialogNewEditEvent(
     private val curList: ListEntity,
     private val curEvent: EventEntity? = null
@@ -56,7 +60,7 @@ class DialogNewEditEvent(
         var second = today.get(Calendar.SECOND)
 
         if (curList.withoutSeconds) {
-            second = 0
+            second = MIN_SECONDS_VALUE
             today.set(year, month, day, hourOfDay, minute, second)
         }
 
@@ -67,7 +71,7 @@ class DialogNewEditEvent(
             hourOfDay = curEvent.dateStamp!!.get(Calendar.HOUR_OF_DAY)
             minute = curEvent.dateStamp!!.get(Calendar.MINUTE)
             second = curEvent.dateStamp!!.get(Calendar.SECOND)
-            if (curList.withoutSeconds) second = 0
+            if (curList.withoutSeconds) second = MIN_SECONDS_VALUE
             commentEditText.setText(curEvent.comment)
             today.set(year, month, day, hourOfDay, minute, second)
         }
@@ -131,8 +135,8 @@ class DialogNewEditEvent(
 
         secondsButton.setOnClickListener {
             val picker = NumberPicker(this.requireContext())
-            picker.minValue = 0
-            picker.maxValue = 59
+            picker.minValue = MIN_SECONDS_VALUE
+            picker.maxValue = MAX_SECONDS_VALUE
             picker.value = second
 
             val layout = FrameLayout(this.requireContext())
@@ -175,8 +179,7 @@ class DialogNewEditEvent(
         } catch (e: ClassCastException) {
             // The activity doesn't implement the interface, throw exception
             throw ClassCastException(
-                (context.toString() +
-                        " must implement NewEventDialogListener")
+                (context.toString() + EVENT_DIAL_EXCEPTION_TEXT)
             )
         }
     }

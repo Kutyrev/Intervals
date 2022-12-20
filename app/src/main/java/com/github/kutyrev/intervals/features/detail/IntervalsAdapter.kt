@@ -26,8 +26,9 @@ fun computeDiffDates(date1: Date, date2: Date): Map<TimeUnit?, Long> {
     val diffInMillies = date2.time - date1.time
 
     //create the list
-    val units: List<TimeUnit?> = ArrayList<TimeUnit?>(EnumSet.allOf(TimeUnit::class.java))
-    Collections.reverse(units)
+    val units: List<TimeUnit?> =
+        ArrayList<TimeUnit?>(EnumSet.allOf(TimeUnit::class.java)).reversed()
+    //Collections.reverse(units)
 
     //create the result map of TimeUnit and difference
     val result: MutableMap<TimeUnit?, Long> = LinkedHashMap<TimeUnit?, Long>()
@@ -42,7 +43,7 @@ fun computeDiffDates(date1: Date, date2: Date): Map<TimeUnit?, Long> {
         //calculate difference in millisecond
         val diff: Long = unit?.convert(milliesRest, TimeUnit.MILLISECONDS) ?: 0
         val diffInMilliesForUnit: Long = unit?.toMillis(diff) ?: 0
-        milliesRest = milliesRest - diffInMilliesForUnit
+        milliesRest -= diffInMilliesForUnit
 
         //put the result in the map
         result[unit] = diff
@@ -50,12 +51,12 @@ fun computeDiffDates(date1: Date, date2: Date): Map<TimeUnit?, Long> {
     return result
 }
 
-class IntervalsAdapter(val detailFragment: DetailFragment, val context: Context) :
+class IntervalsAdapter(private val detailFragment: DetailFragment, val context: Context) :
     ListAdapter<EventEntity, EventEntityHolder>(
         EVENTENTITY_COMPARATOR
     ), SwipeToDeleteCallback.OnSwipeDeleteListener {
 
-    internal lateinit var listener: EventActionsListener
+    private lateinit var listener: EventActionsListener
 
     companion object {
         private val EVENTENTITY_COMPARATOR = object : DiffUtil.ItemCallback<EventEntity>() {
@@ -71,24 +72,10 @@ class IntervalsAdapter(val detailFragment: DetailFragment, val context: Context)
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
-        try {
-            listener = detailFragment as EventActionsListener
-        } catch (e: ClassCastException) {
-
-        }
+        listener = detailFragment
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventEntityHolder {
-
-
-        /*  return EventEntityHolder.create(parent,  object : EventItemClickListener{
-              override fun onEditEvent(position: Int) {
-                  println(getItem(position).dateStamp)
-
-              }
-
-          })*/
-
         return EventEntityHolder.create(parent, listener)
     }
 
@@ -114,7 +101,7 @@ class IntervalsAdapter(val detailFragment: DetailFragment, val context: Context)
             if (diffDate != null) {
                 for (curUnit in diffDate) {
 
-                    val timeUnitStr: String? = when(curUnit.key){
+                    val timeUnitStr: String? = when (curUnit.key) {
                         TimeUnit.DAYS -> context.getString(R.string.days)
                         TimeUnit.HOURS -> context.getString(R.string.hours)
                         TimeUnit.MINUTES -> context.getString(R.string.minutes)
@@ -199,7 +186,6 @@ class EventEntityHolder(
                 .inflate(R.layout.recyclerview_item, parent, false)
 
             return EventEntityHolder(view, editListener)
-
         }
     }
 }

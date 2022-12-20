@@ -17,6 +17,7 @@ import javax.inject.Inject
 private const val LAST_DAY_HOUR = 23
 private const val LAST_MINUTE_SECOND = 59
 private const val LAST_MILLISECOND = 999
+private const val ZERO_DATE_VALUE = 0
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(
@@ -66,10 +67,10 @@ class DetailViewModel @Inject constructor(
 
     fun getAvgEventsDiffByDay(listId: Int): LiveData<Long> {
         val firstDate: Calendar = Calendar.getInstance()
-        firstDate.set(Calendar.HOUR_OF_DAY, 0)
-        firstDate.set(Calendar.MINUTE, 0)
-        firstDate.set(Calendar.SECOND, 0)
-        firstDate.set(Calendar.MILLISECOND, 0)
+        firstDate.set(Calendar.HOUR_OF_DAY, ZERO_DATE_VALUE)
+        firstDate.set(Calendar.MINUTE, ZERO_DATE_VALUE)
+        firstDate.set(Calendar.SECOND, ZERO_DATE_VALUE)
+        firstDate.set(Calendar.MILLISECOND, ZERO_DATE_VALUE)
 
         val secondDate: Calendar = Calendar.getInstance()
         secondDate.set(Calendar.HOUR_OF_DAY, LAST_DAY_HOUR)
