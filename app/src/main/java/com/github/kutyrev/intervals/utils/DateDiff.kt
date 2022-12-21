@@ -13,8 +13,8 @@ class DateDiff (diffInMillis : Long) {
 
     init {
         //create the list
-        val units: List<TimeUnit?> = ArrayList<TimeUnit?>(EnumSet.allOf(TimeUnit::class.java))
-        Collections.reverse(units)
+        val units: List<TimeUnit?> = ArrayList<TimeUnit?>(EnumSet.allOf(TimeUnit::class.java)).reversed()
+        //Collections.reverse(units)
 
         //create the result map of TimeUnit and difference
         var milliesRest = diffInMillis

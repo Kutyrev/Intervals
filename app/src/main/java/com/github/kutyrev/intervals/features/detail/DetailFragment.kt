@@ -10,7 +10,7 @@ import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.github.kutyrev.intervals.*
+import com.github.kutyrev.intervals.R
 import com.github.kutyrev.intervals.datasource.database.EventEntity
 import com.github.kutyrev.intervals.datasource.database.ListEntity
 import com.github.kutyrev.intervals.features.detail.model.DetailViewModel
@@ -24,10 +24,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
+import java.util.Calendar
+
 
 private const val EDIT_EVENT_TAG = "NewEditEventDialog"
 private const val EDIT_LIST_TAG = "NewEditListDialog"
+private const val POINTS_STEP_SIZE = 50
 
 @AndroidEntryPoint
 class DetailFragment(val list: ListEntity) : Fragment(R.layout.fragment_detail),
@@ -54,15 +56,8 @@ class DetailFragment(val list: ListEntity) : Fragment(R.layout.fragment_detail),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        recyclerView = view.findViewById<RecyclerView>(R.id.recyclerview)
-        graphView = view.findViewById<GraphView>(R.id.graph_view)
-        avgByMonthView = view.findViewById<TextView>(R.id.textview_avg_by_month)
-        avgByYearView = view.findViewById<TextView>(R.id.textview_avg_by_year)
-        avgByDayView = view.findViewById<TextView>(R.id.textview_avg_by_day)
-        fastAddBtn = view.findViewById<FloatingActionButton>(R.id.fab_fast_add)
-        labelGraphView = view.findViewById<TextView>(R.id.textview_graph_title)
+        setViews(view)
 
-        labelview = view.findViewById(R.id.label)
         labelview.setText(list.name)
         labelview.setOnClickListener {
             DialogNewEditList(list, false).show(
@@ -141,6 +136,17 @@ class DetailFragment(val list: ListEntity) : Fragment(R.layout.fragment_detail),
         }
     }
 
+    private fun setViews(view: View) {
+        recyclerView = view.findViewById<RecyclerView>(R.id.recyclerview)
+        graphView = view.findViewById<GraphView>(R.id.graph_view)
+        avgByMonthView = view.findViewById<TextView>(R.id.textview_avg_by_month)
+        avgByYearView = view.findViewById<TextView>(R.id.textview_avg_by_year)
+        avgByDayView = view.findViewById<TextView>(R.id.textview_avg_by_day)
+        fastAddBtn = view.findViewById<FloatingActionButton>(R.id.fab_fast_add)
+        labelGraphView = view.findViewById<TextView>(R.id.textview_graph_title)
+        labelview = view.findViewById(R.id.label)
+    }
+
     private fun getStatistics() {
         val eventsDiffs: LiveData<List<Long>> = viewModel.getEventsDiffByMonth(list.id)
         eventsDiffs.observe(viewLifecycleOwner) { result ->
@@ -164,7 +170,7 @@ class DetailFragment(val list: ListEntity) : Fragment(R.layout.fragment_detail),
                 val min: Float? = points.minOrNull()
 
                 if (max != null && min != null && max != min) {
-                    val step = (max - min) / 50
+                    val step = (max - min) / POINTS_STEP_SIZE
                     points.forEachIndexed { index, l ->
                         dataPoints.add(
                             DataPoint(

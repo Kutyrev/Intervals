@@ -35,11 +35,19 @@ class DatabaseModule {
             }
         }
 
+        val MIGRATION_2_3: Migration = object : Migration(2, 3) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    "CREATE INDEX index_event_entity_list_id ON EventEntity(listId)"
+                )
+            }
+        }
+
         return Room.databaseBuilder(
             appContext,
             IntervalsDatabase::class.java,
             DB_NAME
-        ).addMigrations(MIGRATION_1_2).build()
+        ).addMigrations(MIGRATION_1_2, MIGRATION_2_3).build()
     }
 
     @Provides

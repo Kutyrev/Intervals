@@ -11,7 +11,10 @@ import com.github.kutyrev.intervals.R
 import com.github.kutyrev.intervals.utils.SwipeToDeleteCallback
 import com.github.kutyrev.intervals.datasource.database.ListEntity
 
-class ListEntityAdapter(private val onClick: (ListEntity) -> Unit, private val onSwipeDeleteList: (ListEntity, Int) -> Unit) : ListAdapter<ListEntity, ListEntityHolder>(
+class ListEntityAdapter(
+    private val onClick: (ListEntity) -> Unit,
+    private val onSwipeDeleteList: (ListEntity, Int) -> Unit
+) : ListAdapter<ListEntity, ListEntityHolder>(
     LISTENTITY_COMPARATOR
 ), SwipeToDeleteCallback.OnSwipeDeleteListener {
 
@@ -44,7 +47,7 @@ class ListEntityAdapter(private val onClick: (ListEntity) -> Unit, private val o
         onSwipeDeleteList(getItem(position), position)
     }
 
-    fun addToListView(curList : ListEntity, position : Int){
+    fun addToListView(curList: ListEntity, position: Int) {
         val editableList = currentList.toMutableList()
         editableList.add(position, curList)
         submitList(editableList)
@@ -52,10 +55,11 @@ class ListEntityAdapter(private val onClick: (ListEntity) -> Unit, private val o
 
 }
 
-class ListEntityHolder(itemView: View, val onClick: (ListEntity) -> Unit) : RecyclerView.ViewHolder(itemView){
+class ListEntityHolder(itemView: View, val onClick: (ListEntity) -> Unit) :
+    RecyclerView.ViewHolder(itemView) {
 
-    private val label : TextView = itemView.findViewById(R.id.item_label_textview)
-    private var curList : ListEntity? = null
+    private val label: TextView = itemView.findViewById(R.id.item_label_textview)
+    private var curList: ListEntity? = null
 
     companion object {
         fun create(parent: ViewGroup, onClick: (ListEntity) -> Unit): ListEntityHolder {
@@ -73,7 +77,7 @@ class ListEntityHolder(itemView: View, val onClick: (ListEntity) -> Unit) : Recy
         }
     }
 
-    fun bind(list : ListEntity){
+    fun bind(list: ListEntity) {
         label.text = list.name
         curList = list
     }

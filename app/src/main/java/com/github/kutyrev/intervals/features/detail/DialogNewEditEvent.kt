@@ -51,7 +51,6 @@ class DialogNewEditEvent(
 
         if (curList.withoutSeconds) secondsButton.isEnabled = false
 
-
         var year = today.get(Calendar.YEAR)
         var month = today.get(Calendar.MONTH)
         var day = today.get(Calendar.DAY_OF_MONTH)
@@ -78,61 +77,22 @@ class DialogNewEditEvent(
 
         newDateTextView.setText(dateFormat.format(today.time))
 
-        okButton.setOnClickListener {
+        setupBottomButtons(okButton, commentEditText, curEvent, cancelButton)
 
-            if (curEvent == null) {
-                listener.onAddNewEventDialogPositiveClickNewItem(
-                    EventEntity(
-                        curList.id,
-                        today,
-                        commentEditText.text.toString()
-                    )
-                )
-            } else {
-                curEvent.dateStamp = today
-                curEvent.comment = commentEditText.text.toString()
-                listener.onEditEventDialogPositiveClickNewItem(curEvent)
-            }
-            this.dismiss()
-        }
+        setupCalendarButton(calendarButton, newDateTextView, year, month, day)
 
-        cancelButton.setOnClickListener {
-            this.dismiss()
-        }
+        setupTimeButton(timeButton, newDateTextView, hourOfDay, minute)
 
-        calendarButton.setOnClickListener {
-            val datePickerDialog = DatePickerDialog(this.requireContext(),
-                DatePickerDialog.OnDateSetListener { view, year, month, day ->
-                    today.set(
-                        year,
-                        month,
-                        day,
-                        today.get(Calendar.HOUR_OF_DAY),
-                        today.get(Calendar.MINUTE)
-                    )
-                    // Display Selected date in textbox
-                    val dateTime: Date = today.getTime()
-                    newDateTextView.setText(dateFormat.format(dateTime))
+        setupSecondsButton(secondsButton, second, newDateTextView)
 
-                }, year, month, day
-            )
-            datePickerDialog.show()
-        }
+        return view
+    }
 
-        timeButton.setOnClickListener {
-            val datePickerDialog = TimePickerDialog(this.requireContext(),
-                TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
-                    today.set(
-                        today.get(Calendar.YEAR), today.get(Calendar.MONTH),
-                        today.get(Calendar.DAY_OF_MONTH), hourOfDay, minute
-                    )
-                    val dateTime: Date = today.getTime()
-                    newDateTextView.setText(dateFormat.format(dateTime))
-                }, hourOfDay, minute, true
-            )
-            datePickerDialog.show()
-        }
-
+    private fun setupSecondsButton(
+        secondsButton: Button,
+        second: Int,
+        newDateTextView: TextView
+    ) {
         secondsButton.setOnClickListener {
             val picker = NumberPicker(this.requireContext())
             picker.minValue = MIN_SECONDS_VALUE
@@ -164,8 +124,85 @@ class DialogNewEditEvent(
                 .setNegativeButton(R.string.dialog_cancel, null)
             secondsDialog.show()
         }
+    }
 
-        return view
+    private fun setupTimeButton(
+        timeButton: Button,
+        newDateTextView: TextView,
+        hourOfDay: Int,
+        minute: Int
+    ) {
+        timeButton.setOnClickListener {
+            val datePickerDialog = TimePickerDialog(
+                this.requireContext(),
+                TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+                    today.set(
+                        today.get(Calendar.YEAR), today.get(Calendar.MONTH),
+                        today.get(Calendar.DAY_OF_MONTH), hourOfDay, minute
+                    )
+                    val dateTime: Date = today.getTime()
+                    newDateTextView.setText(dateFormat.format(dateTime))
+                }, hourOfDay, minute, true
+            )
+            datePickerDialog.show()
+        }
+    }
+
+    private fun setupCalendarButton(
+        calendarButton: Button,
+        newDateTextView: TextView,
+        year: Int,
+        month: Int,
+        day: Int
+    ) {
+        calendarButton.setOnClickListener {
+            val datePickerDialog = DatePickerDialog(
+                this.requireContext(),
+                DatePickerDialog.OnDateSetListener { view, year, month, day ->
+                    today.set(
+                        year,
+                        month,
+                        day,
+                        today.get(Calendar.HOUR_OF_DAY),
+                        today.get(Calendar.MINUTE)
+                    )
+                    // Display Selected date in textbox
+                    val dateTime: Date = today.getTime()
+                    newDateTextView.setText(dateFormat.format(dateTime))
+
+                }, year, month, day
+            )
+            datePickerDialog.show()
+        }
+    }
+
+    private fun setupBottomButtons(
+        okButton: Button,
+        commentEditText: EditText,
+        curEvent: EventEntity?,
+        cancelButton: Button
+    ) {
+        okButton.setOnClickListener {
+
+            if (curEvent == null) {
+                listener.onAddNewEventDialogPositiveClickNewItem(
+                    EventEntity(
+                        curList.id,
+                        today,
+                        commentEditText.text.toString()
+                    )
+                )
+            } else {
+                curEvent.dateStamp = today
+                curEvent.comment = commentEditText.text.toString()
+                listener.onEditEventDialogPositiveClickNewItem(curEvent)
+            }
+            this.dismiss()
+        }
+
+        cancelButton.setOnClickListener {
+            this.dismiss()
+        }
     }
 
     // Override the Fragment.onAttach() method to instantiate the NewEventDialogListener
