@@ -16,6 +16,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 
 private const val DELETE_DIALOG_TAG = "DialogDeleteList"
+private const val NEW_LIST_DIALOG_TAG = "NewEditListDialog"
 
 @AndroidEntryPoint
 class MainListFragment : Fragment(R.layout.fragment_main_list),
@@ -34,7 +35,7 @@ class MainListFragment : Fragment(R.layout.fragment_main_list),
         view.findViewById<FloatingActionButton>(R.id.fab_main_list).setOnClickListener {
             DialogNewEditList(ListEntity("", false), true).show(
                 childFragmentManager,
-                "NewEditListDialog"
+                NEW_LIST_DIALOG_TAG
             )
         }
 

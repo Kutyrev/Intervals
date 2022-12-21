@@ -19,8 +19,14 @@ import com.github.kutyrev.intervals.utils.SwipeToDeleteCallback
 import com.github.kutyrev.intervals.datasource.database.EventEntity
 import com.github.kutyrev.intervals.utils.DATE_PATTERN
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.EnumSet
+import java.util.Calendar
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
+import kotlin.collections.LinkedHashMap
+
+private const val NEXT_DAY_SELECTION_COLOR = "#FF018786"
 
 fun computeDiffDates(date1: Date, date2: Date): Map<TimeUnit?, Long> {
     val diffInMillies = date2.time - date1.time
@@ -164,7 +170,7 @@ class EventEntityHolder(
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                 )
                 str.setSpan(
-                    ForegroundColorSpan(Color.parseColor("#FF018786")),
+                    ForegroundColorSpan(Color.parseColor(NEXT_DAY_SELECTION_COLOR)),
                     0, str.length,
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                 )
