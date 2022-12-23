@@ -73,9 +73,11 @@ dependencies {
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
 
     testImplementation 'junit:junit:4.13.2'
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
     testImplementation "io.mockk:mockk:1.13.3"
-    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
-    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+    testImplementation 'androidx.test.ext:junit:1.1.4'
+    // Test helpers for LiveData
+    testImplementation "android.arch.core:core-testing:1.1.1"
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
 }
 

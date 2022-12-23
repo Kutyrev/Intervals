@@ -1,4 +1,4 @@
-package com.github.kutyrev.intervals.features.main.model
+package com.github.kutyrev.intervals.utils
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

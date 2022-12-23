@@ -129,7 +129,7 @@ class DetailFragment(val list: ListEntity) : Fragment(R.layout.fragment_detail),
 
         if (adapter.currentList.isNotEmpty()) recyclerView.smoothScrollToPosition(adapter.currentList.size - 1)
 
-        viewModel.isShowFastAddButton()
+        viewModel.startCollectIsShowFastAddButton()
         viewModel.isShowFastAddButton.observe(viewLifecycleOwner) { enableFastAddBtn ->
             if (enableFastAddBtn) fastAddBtn.visibility = View.VISIBLE
             else fastAddBtn.visibility = View.GONE

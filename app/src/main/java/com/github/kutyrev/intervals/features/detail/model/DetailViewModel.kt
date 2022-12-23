@@ -49,7 +49,6 @@ class DetailViewModel @Inject constructor(
     }
 
     fun getAvgEventsDiffByYear(listId: Int): LiveData<Long> {
-
         val firstDate: Calendar = Calendar.getInstance() // this takes current date
         firstDate.set(Calendar.DAY_OF_YEAR, 1)
 
@@ -100,7 +99,7 @@ class DetailViewModel @Inject constructor(
         ).asLiveData()
     }
 
-    fun isShowFastAddButton() {
+    fun startCollectIsShowFastAddButton() {
         viewModelScope.launch {
             _isShowFastAddButton.postValue(preferencesRepository.getFastAddButtonProperty())
         }

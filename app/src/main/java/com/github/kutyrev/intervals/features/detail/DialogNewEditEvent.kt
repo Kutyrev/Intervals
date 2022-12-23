@@ -223,6 +223,6 @@ class DialogNewEditEvent(
 
     interface NewEventDialogListener {
         fun onAddNewEventDialogPositiveClickNewItem(newEvent: EventEntity)
-        fun onEditEventDialogPositiveClickNewItem(newEvent: EventEntity)
+        fun onEditEventDialogPositiveClickNewItem(curEvent: EventEntity)
     }
 }
