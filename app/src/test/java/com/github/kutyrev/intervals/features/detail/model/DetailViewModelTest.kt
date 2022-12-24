@@ -40,17 +40,17 @@ class DetailViewModelTest {
     private val preferencesRepository: PreferencesRepository = mockk()
 
     private val testEntity = EventEntity(TEST_EVENT_LIST_ID, Calendar.getInstance(), TEST_COMMENT)
-    private val testListEntity = listOf(testEntity)
+    private val testListOfEntities = listOf(testEntity)
     private val listEntity = ListEntity(name = TEST_LIST_NAME, withoutSeconds = false)
 
     @Test
     fun getEventsLifeData() {
-        every { dbRepository.getAllEvents() } returns flowOf(testListEntity)
+        every { dbRepository.getAllEvents() } returns flowOf(testListOfEntities)
 
         val detailViewModel = DetailViewModel(preferencesRepository, dbRepository)
 
         assertEquals(
-            testListEntity,
+            testListOfEntities,
             detailViewModel.eventsLifeData.getOrAwaitValue()
         )
 
@@ -62,7 +62,7 @@ class DetailViewModelTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun isShowFastAddButton() = runTest {
-        every { dbRepository.getAllEvents() } returns flowOf(testListEntity)
+        every { dbRepository.getAllEvents() } returns flowOf(testListOfEntities)
         coEvery { preferencesRepository.getFastAddButtonProperty() } returns true
 
         val detailViewModel = DetailViewModel(preferencesRepository, dbRepository)
@@ -87,7 +87,7 @@ class DetailViewModelTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun insertNewEvent() = runTest {
-        every { dbRepository.getAllEvents() } returns flowOf(testListEntity)
+        every { dbRepository.getAllEvents() } returns flowOf(testListOfEntities)
         coEvery { dbRepository.insertAllEvents(any()) } just Runs
 
         val detailViewModel = DetailViewModel(preferencesRepository, dbRepository)
@@ -101,7 +101,7 @@ class DetailViewModelTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun deleteEvent() = runTest {
-        every { dbRepository.getAllEvents() } returns flowOf(testListEntity)
+        every { dbRepository.getAllEvents() } returns flowOf(testListOfEntities)
         coEvery { dbRepository.deleteEvent(testEntity) } just Runs
 
         val detailViewModel = DetailViewModel(preferencesRepository, dbRepository)
@@ -115,7 +115,7 @@ class DetailViewModelTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun updateEvent() = runTest {
-        every { dbRepository.getAllEvents() } returns flowOf(testListEntity)
+        every { dbRepository.getAllEvents() } returns flowOf(testListOfEntities)
         coEvery { dbRepository.updateEvent(testEntity) } just Runs
 
         val detailViewModel = DetailViewModel(preferencesRepository, dbRepository)
@@ -129,7 +129,7 @@ class DetailViewModelTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun updateList() = runTest {
-        every { dbRepository.getAllEvents() } returns flowOf(testListEntity)
+        every { dbRepository.getAllEvents() } returns flowOf(testListOfEntities)
         coEvery { dbRepository.updateList(any()) } just Runs
 
         val detailViewModel = DetailViewModel(preferencesRepository, dbRepository)
@@ -142,7 +142,7 @@ class DetailViewModelTest {
 
     @Test
     fun getAvgEventsDiffByYear() {
-        every { dbRepository.getAllEvents() } returns flowOf(testListEntity)
+        every { dbRepository.getAllEvents() } returns flowOf(testListOfEntities)
         every { dbRepository.getAvgDiffBetweenDates(any(), any(), any()) } returns flowOf(AVG_DIFF)
 
         val detailViewModel = DetailViewModel(preferencesRepository, dbRepository)
@@ -158,7 +158,7 @@ class DetailViewModelTest {
 
     @Test
     fun getAvgEventsDiffByDay() {
-        every { dbRepository.getAllEvents() } returns flowOf(testListEntity)
+        every { dbRepository.getAllEvents() } returns flowOf(testListOfEntities)
         every { dbRepository.getAvgDiffBetweenDates(any(), any(), any()) } returns flowOf(AVG_DIFF)
 
         val detailViewModel = DetailViewModel(preferencesRepository, dbRepository)
@@ -174,7 +174,7 @@ class DetailViewModelTest {
 
     @Test
     fun getEventsDiffByMonth() {
-        every { dbRepository.getAllEvents() } returns flowOf(testListEntity)
+        every { dbRepository.getAllEvents() } returns flowOf(testListOfEntities)
         every { dbRepository.getDiffBetweenDates(any(), any(), any()) } returns flowOf(
             listOf(
                 AVG_DIFF
