@@ -11,6 +11,8 @@ import com.github.kutyrev.intervals.features.settings.SettingsFragment
 import com.github.kutyrev.intervals.datasource.database.ListEntity
 import com.github.kutyrev.intervals.features.detail.DetailFragment
 import androidx.activity.addCallback
+import androidx.core.os.bundleOf
+import com.github.kutyrev.intervals.utils.LIST_KEY
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -40,7 +42,6 @@ class MainActivity : AppCompatActivity(){
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
@@ -63,7 +64,8 @@ class MainActivity : AppCompatActivity(){
 
     fun goToDetailFragment(list: ListEntity){
         supportFragmentManager.commit {
-            val fragment = DetailFragment(list)
+            val fragment = DetailFragment()
+            fragment.arguments = bundleOf(LIST_KEY to list)
             setReorderingAllowed(true)
             addToBackStack("")
             replace(R.id.fragment_container_view, fragment)

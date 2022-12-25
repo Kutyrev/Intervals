@@ -18,7 +18,9 @@ import com.github.kutyrev.intervals.features.editing.DialogNewEditList
 import com.github.kutyrev.intervals.features.graph.DataPoint
 import com.github.kutyrev.intervals.features.graph.GraphView
 import com.github.kutyrev.intervals.utils.DateDiff
+import com.github.kutyrev.intervals.utils.LIST_KEY
 import com.github.kutyrev.intervals.utils.SwipeToDeleteCallback
+import com.github.kutyrev.intervals.utils.parcelable
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.BaseTransientBottomBar
@@ -32,7 +34,7 @@ private const val EDIT_LIST_TAG = "NewEditListDialog"
 private const val POINTS_STEP_SIZE = 50
 
 @AndroidEntryPoint
-class DetailFragment(val list: ListEntity) : Fragment(R.layout.fragment_detail),
+class DetailFragment() : Fragment(R.layout.fragment_detail),
     DialogNewEditEvent.NewEventDialogListener,
     IntervalsAdapter.EventActionsListener, DialogNewEditList.NewEditListDialogListener {
 
@@ -43,6 +45,8 @@ class DetailFragment(val list: ListEntity) : Fragment(R.layout.fragment_detail),
 
     private val viewModel: DetailViewModel by viewModels()
 
+    private lateinit var list: ListEntity
+
     private var curListMode: Int = RECYCLER_MODE
     private lateinit var recyclerView: RecyclerView
     private lateinit var graphView: GraphView
@@ -52,6 +56,11 @@ class DetailFragment(val list: ListEntity) : Fragment(R.layout.fragment_detail),
     private lateinit var avgByDayView: TextView
     private lateinit var fastAddBtn: FloatingActionButton
     private lateinit var labelGraphView: TextView
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        list = arguments?.parcelable<ListEntity>(LIST_KEY) ?: ListEntity("", false)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
