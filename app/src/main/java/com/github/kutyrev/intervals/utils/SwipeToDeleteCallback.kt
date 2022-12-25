@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.github.kutyrev.intervals.R
 
-private const val BACK_COLOR = 0xffff6666
 private const val BACK_CORNER_OFFSET = 20
 private const val START_MARGINS = 0
 
@@ -18,7 +17,7 @@ class SwipeToDeleteCallback(private val listener: OnSwipeDeleteListener, context
     ItemTouchHelper.SimpleCallback(
         0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
     ) {
-    private val background = ColorDrawable(BACK_COLOR.toInt())
+    private val background = ColorDrawable(context.getColor(R.color.light_red))
     private val deleteIcon: Drawable? = ContextCompat.getDrawable(
         context,
         R.drawable.ic_baseline_delete_24
