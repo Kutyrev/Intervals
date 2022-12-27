@@ -15,6 +15,7 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -140,15 +141,16 @@ class DetailViewModelTest {
         }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun getAvgEventsDiffByYear() {
+    fun getAvgEventsDiffByYear() = runTest {
         every { dbRepository.getAllEvents() } returns flowOf(testListOfEntities)
         every { dbRepository.getAvgDiffBetweenDates(any(), any(), any()) } returns flowOf(AVG_DIFF)
 
         val detailViewModel = DetailViewModel(preferencesRepository, dbRepository)
         assertEquals(
             AVG_DIFF,
-            detailViewModel.getAvgEventsDiffByYear(TEST_EVENT_LIST_ID).getOrAwaitValue()
+            detailViewModel.getAvgEventsDiffByYear(TEST_EVENT_LIST_ID).first()
         )
 
         verify {
@@ -156,15 +158,16 @@ class DetailViewModelTest {
         }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun getAvgEventsDiffByDay() {
+    fun getAvgEventsDiffByDay() = runTest {
         every { dbRepository.getAllEvents() } returns flowOf(testListOfEntities)
         every { dbRepository.getAvgDiffBetweenDates(any(), any(), any()) } returns flowOf(AVG_DIFF)
 
         val detailViewModel = DetailViewModel(preferencesRepository, dbRepository)
         assertEquals(
             AVG_DIFF,
-            detailViewModel.getAvgEventsDiffByDay(TEST_EVENT_LIST_ID).getOrAwaitValue()
+            detailViewModel.getAvgEventsDiffByDay(TEST_EVENT_LIST_ID).first()
         )
 
         verify {
@@ -172,8 +175,9 @@ class DetailViewModelTest {
         }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun getEventsDiffByMonth() {
+    fun getEventsDiffByMonth() = runTest {
         every { dbRepository.getAllEvents() } returns flowOf(testListOfEntities)
         every { dbRepository.getDiffBetweenDates(any(), any(), any()) } returns flowOf(
             listOf(
@@ -185,7 +189,7 @@ class DetailViewModelTest {
 
         assertEquals(
             listOf(AVG_DIFF),
-            detailViewModel.getEventsDiffByMonth(TEST_EVENT_LIST_ID).getOrAwaitValue()
+            detailViewModel.getEventsDiffByMonth(TEST_EVENT_LIST_ID).first()
         )
 
         verify {
