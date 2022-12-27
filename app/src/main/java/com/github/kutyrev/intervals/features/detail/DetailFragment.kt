@@ -6,7 +6,7 @@ import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.coroutineScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,15 +26,15 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import java.util.Calendar
-
 
 private const val EDIT_EVENT_TAG = "NewEditEventDialog"
 private const val EDIT_LIST_TAG = "NewEditListDialog"
 private const val POINTS_STEP_SIZE = 50
 
 @AndroidEntryPoint
-class DetailFragment() : Fragment(R.layout.fragment_detail),
+class DetailFragment : Fragment(R.layout.fragment_detail),
     DialogNewEditEvent.NewEventDialogListener,
     IntervalsAdapter.EventActionsListener, DialogNewEditList.NewEditListDialogListener {
 
@@ -157,62 +157,63 @@ class DetailFragment() : Fragment(R.layout.fragment_detail),
     }
 
     private fun getStatistics() {
-        val eventsDiffs: LiveData<List<Long>> = viewModel.getEventsDiffByMonth(list.id)
-        eventsDiffs.observe(viewLifecycleOwner) { result ->
+        lifecycle.coroutineScope.launch {
+            viewModel.getEventsDiffByMonth(list.id).collect() { result ->
+                if (result != null) {
+                    val points = FloatArray(result.size)
+                    val diffs = LongArray(result.size)
+                    val dataPoints: MutableList<DataPoint> = mutableListOf()
 
-            val points = FloatArray(result.size)
-            val diffs = LongArray(result.size)
-            val dataPoints: MutableList<DataPoint> = mutableListOf()
 
-            if (result != null) {
-                val iterator = result.iterator()
-                var point = 0
+                    val iterator = result.iterator()
+                    var point = 0
 
-                for (value in iterator) {
-                    points[point] = 1.0f / (value)
-                    diffs[point] = value
-                    point++
+                    for (value in iterator) {
+                        points[point] = 1.0f / (value)
+                        diffs[point] = value
+                        point++
 
-                }
-
-                val max: Float? = points.maxOrNull()
-                val min: Float? = points.minOrNull()
-
-                if (max != null && min != null && max != min) {
-                    val step = (max - min) / POINTS_STEP_SIZE
-                    points.forEachIndexed { index, l ->
-                        dataPoints.add(
-                            DataPoint(
-                                index,
-                                (l / step).toInt()
-                            )
-                        )
                     }
+
+                    val max: Float? = points.maxOrNull()
+                    val min: Float? = points.minOrNull()
+
+                    if (max != null && min != null && max != min) {
+                        val step = (max - min) / POINTS_STEP_SIZE
+                        points.forEachIndexed { index, l ->
+                            dataPoints.add(
+                                DataPoint(
+                                    index,
+                                    (l / step).toInt()
+                                )
+                            )
+                        }
+                    }
+
+                    avgByMonthView.text = getString(
+                        R.string.avg_by_month,
+                        DateDiff(diffs.average().toLong()).toString(context)
+                    )
+                    graphView.setData(dataPoints)
                 }
-
-                avgByMonthView.text = getString(
-                    R.string.avg_by_month,
-                    DateDiff(diffs.average().toLong()).toString(context)
-                )
-                graphView.setData(dataPoints)
-
             }
         }
 
-        val avgByYear: LiveData<Long> = viewModel.getAvgEventsDiffByYear(list.id)
-        avgByYear.observe(viewLifecycleOwner) {
-            if (it != null) avgByYearView.text =
-                getString(R.string.avg_by_year, DateDiff(it).toString(context))
-            else avgByYearView.text = getString(R.string.avg_by_year, "—")
+        lifecycle.coroutineScope.launch {
+            viewModel.getAvgEventsDiffByYear(list.id).collect() {
+                if (it != null) avgByYearView.text =
+                    getString(R.string.avg_by_year, DateDiff(it).toString(context))
+                else avgByYearView.text = getString(R.string.avg_by_year, "—")
+            }
         }
 
-        val avgByDay: LiveData<Long> = viewModel.getAvgEventsDiffByDay(list.id)
-        avgByDay.observe(viewLifecycleOwner) {
-            if (it != null) avgByDayView.text =
-                getString(R.string.avg_by_day, DateDiff(it).toString(context))
-            else avgByDayView.text = getString(R.string.avg_by_day, "—")
+        lifecycle.coroutineScope.launch {
+            viewModel.getAvgEventsDiffByDay(list.id).collect() {
+                if (it != null) avgByDayView.text =
+                    getString(R.string.avg_by_day, DateDiff(it).toString(context))
+                else avgByDayView.text = getString(R.string.avg_by_day, "—")
+            }
         }
-
     }
 
     private fun graphMode() {
@@ -253,7 +254,11 @@ class DetailFragment() : Fragment(R.layout.fragment_detail),
             val view: View = mainView.findViewById<CoordinatorLayout>(R.id.detail_main_layout)
 
             val snackbar: Snackbar =
-                Snackbar.make(view, getString(R.string.delete_event_snackbar), Snackbar.LENGTH_LONG)
+                Snackbar.make(
+                    view,
+                    getString(R.string.delete_event_snackbar),
+                    Snackbar.LENGTH_LONG
+                )
             snackbar.setAction(
                 getString(R.string.snackbar_undo)
             ) { undoDeleteEvent(curEvent, adapter) }

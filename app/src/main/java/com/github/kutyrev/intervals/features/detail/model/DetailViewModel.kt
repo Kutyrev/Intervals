@@ -10,6 +10,7 @@ import com.github.kutyrev.intervals.datasource.database.ListEntity
 import com.github.kutyrev.intervals.repository.database.DatabaseRepository
 import com.github.kutyrev.intervals.repository.preferences.PreferencesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
@@ -48,7 +49,7 @@ class DetailViewModel @Inject constructor(
         viewModelScope.launch { dbRepository.updateList(curList) }
     }
 
-    fun getAvgEventsDiffByYear(listId: Int): LiveData<Long> {
+    fun getAvgEventsDiffByYear(listId: Int): Flow<Long?> {
         val firstDate: Calendar = Calendar.getInstance() // this takes current date
         firstDate.set(Calendar.DAY_OF_YEAR, 1)
 
@@ -61,10 +62,10 @@ class DetailViewModel @Inject constructor(
         return dbRepository.getAvgDiffBetweenDates(
             listId, firstDate.timeInMillis,
             secondDate.timeInMillis
-        ).asLiveData()
+        )
     }
 
-    fun getAvgEventsDiffByDay(listId: Int): LiveData<Long> {
+    fun getAvgEventsDiffByDay(listId: Int): Flow<Long?> {
         val firstDate: Calendar = Calendar.getInstance()
         firstDate.set(Calendar.HOUR_OF_DAY, ZERO_DATE_VALUE)
         firstDate.set(Calendar.MINUTE, ZERO_DATE_VALUE)
@@ -80,10 +81,10 @@ class DetailViewModel @Inject constructor(
         return dbRepository.getAvgDiffBetweenDates(
             listId, firstDate.timeInMillis,
             secondDate.timeInMillis
-        ).asLiveData()
+        )
     }
 
-    fun getEventsDiffByMonth(listId: Int): LiveData<List<Long>> {
+    fun getEventsDiffByMonth(listId: Int): Flow<List<Long>?> {
         val firstDate: Calendar = Calendar.getInstance()
         firstDate.set(Calendar.DAY_OF_MONTH, 1)
 
@@ -96,7 +97,7 @@ class DetailViewModel @Inject constructor(
         return dbRepository.getDiffBetweenDates(
             listId, firstDate.timeInMillis,
             secondDate.timeInMillis
-        ).asLiveData()
+        )
     }
 
     fun startCollectIsShowFastAddButton() {
