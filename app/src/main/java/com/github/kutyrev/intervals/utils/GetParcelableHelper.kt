@@ -5,8 +5,9 @@ import android.os.Bundle
 import android.os.Parcelable
 
 const val LIST_KEY = "list"
+const val SDK_CHANGE_VERSION = 33
 
 inline fun <reified T : Parcelable> Bundle.parcelable(key: String): T? = when {
-    SDK_INT >= 33 -> getParcelable(key, T::class.java)
+    SDK_INT >= SDK_CHANGE_VERSION -> getParcelable(key, T::class.java)
     else -> @Suppress("DEPRECATION") getParcelable(key) as? T
 }

@@ -10,7 +10,11 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.FrameLayout
+import android.widget.NumberPicker
+import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import com.github.kutyrev.intervals.R
 import com.github.kutyrev.intervals.datasource.database.EventEntity

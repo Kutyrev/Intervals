@@ -10,6 +10,7 @@
         android:id="@+id/item_label_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/padding_std"
         android:paddingVertical="@dimen/recycler_padding_vert"
         android:textSize="@dimen/recycler_item_text_size"
         tools:text="Label" />
