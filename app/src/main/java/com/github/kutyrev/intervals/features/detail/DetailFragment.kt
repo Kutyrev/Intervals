@@ -75,42 +75,9 @@ class DetailFragment : Fragment(R.layout.fragment_detail),
             )
         }
 
-        val toggleGroupMode: MaterialButtonToggleGroup = view.findViewById(R.id.toggleButtonMode)
-        toggleGroupMode.check(R.id.button_recycler_mode)
-        toggleGroupMode.addOnButtonCheckedListener { group, checkedId, isChecked ->
-            if (isChecked) {
-                when (checkedId) {
-                    R.id.button_recycler_mode -> {
-                        curListMode = RECYCLER_MODE
-                    }
-                    R.id.button_stats_mode -> {
-                        curListMode = GRAPH_MODE
-                    }
-                }
+        modeButtonSetup(view)
 
-                when (curListMode) {
-                    RECYCLER_MODE -> listMode()
-                    GRAPH_MODE -> graphMode()
-                }
-            }
-        }
-
-        view.findViewById<FloatingActionButton>(R.id.fab_detail).setOnClickListener {
-            DialogNewEditEvent(list, null).show(childFragmentManager, EDIT_EVENT_TAG)
-        }
-
-        view.findViewById<FloatingActionButton>(R.id.fab_fast_add).setOnClickListener {
-            if (list.withoutSeconds) {
-                val today = Calendar.getInstance()
-                today.set(
-                    today.get(Calendar.YEAR), today.get(Calendar.MONTH),
-                    today.get(Calendar.DAY_OF_MONTH), today.get(Calendar.HOUR_OF_DAY),
-                    today.get(Calendar.MINUTE), 0
-                )
-                viewModel.insertNewEvent(EventEntity(list.id, today, ""))
-
-            } else viewModel.insertNewEvent(EventEntity(list.id, Calendar.getInstance(), ""))
-        }
+        fabButtonsSetup(view)
 
         getStatistics()
 
@@ -142,6 +109,47 @@ class DetailFragment : Fragment(R.layout.fragment_detail),
         viewModel.isShowFastAddButton.observe(viewLifecycleOwner) { enableFastAddBtn ->
             if (enableFastAddBtn) fastAddBtn.visibility = View.VISIBLE
             else fastAddBtn.visibility = View.GONE
+        }
+    }
+
+    private fun fabButtonsSetup(view: View) {
+        view.findViewById<FloatingActionButton>(R.id.fab_detail).setOnClickListener {
+            DialogNewEditEvent(list, null).show(childFragmentManager, EDIT_EVENT_TAG)
+        }
+
+        view.findViewById<FloatingActionButton>(R.id.fab_fast_add).setOnClickListener {
+            if (list.withoutSeconds) {
+                val today = Calendar.getInstance()
+                today.set(
+                    today.get(Calendar.YEAR), today.get(Calendar.MONTH),
+                    today.get(Calendar.DAY_OF_MONTH), today.get(Calendar.HOUR_OF_DAY),
+                    today.get(Calendar.MINUTE), 0
+                )
+                viewModel.insertNewEvent(EventEntity(list.id, today, ""))
+
+            } else viewModel.insertNewEvent(EventEntity(list.id, Calendar.getInstance(), ""))
+        }
+    }
+
+    private fun modeButtonSetup(view: View) {
+        val toggleGroupMode: MaterialButtonToggleGroup = view.findViewById(R.id.toggleButtonMode)
+        toggleGroupMode.check(R.id.button_recycler_mode)
+        toggleGroupMode.addOnButtonCheckedListener { group, checkedId, isChecked ->
+            if (isChecked) {
+                when (checkedId) {
+                    R.id.button_recycler_mode -> {
+                        curListMode = RECYCLER_MODE
+                    }
+                    R.id.button_stats_mode -> {
+                        curListMode = GRAPH_MODE
+                    }
+                }
+
+                when (curListMode) {
+                    RECYCLER_MODE -> listMode()
+                    GRAPH_MODE -> graphMode()
+                }
+            }
         }
     }
 
