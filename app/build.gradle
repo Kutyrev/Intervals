@@ -7,8 +7,6 @@ plugins {
 }
 
 android {
-    compileSdkVersion 33
-
     defaultConfig {
         applicationId "com.github.kutyrev.intervals"
         minSdkVersion 27
