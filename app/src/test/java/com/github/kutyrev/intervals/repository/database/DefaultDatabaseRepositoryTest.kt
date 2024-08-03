@@ -53,7 +53,6 @@ class DefaultDatabaseRepositoryTest {
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun getAllEventsByList() = runTest {
         every { intervalsDao.getAllEventsByList(any()) } returns flowOf(testListOfEntities)
@@ -70,7 +69,6 @@ class DefaultDatabaseRepositoryTest {
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun getEventsBetweenDates() = runTest {
         every { intervalsDao.getEventsBetweenDates(any(), any(), any()) } returns flowOf(
@@ -90,7 +88,6 @@ class DefaultDatabaseRepositoryTest {
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun getAvgDiffBetweenDates() = runTest {
         every { intervalsDao.getAvgDiffBetweenDates(any(), any(), any()) } returns flowOf(
@@ -110,7 +107,6 @@ class DefaultDatabaseRepositoryTest {
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun getDiffBetweenDates() = runTest {
 
@@ -133,7 +129,6 @@ class DefaultDatabaseRepositoryTest {
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun insertAllEvents() = runTest {
         coEvery { intervalsDao.insertAllEvents(any()) } just Runs
@@ -147,7 +142,6 @@ class DefaultDatabaseRepositoryTest {
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun updateEvent() = runTest {
         coEvery { intervalsDao.updateEvent(any()) } just Runs
@@ -161,7 +155,6 @@ class DefaultDatabaseRepositoryTest {
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun deleteEvent() = runTest {
         coEvery { intervalsDao.deleteEvent(any()) } just Runs
@@ -195,7 +188,6 @@ class DefaultDatabaseRepositoryTest {
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun getAllLists() = runTest {
 
@@ -208,7 +200,6 @@ class DefaultDatabaseRepositoryTest {
         assertEquals(listOfLists, defaultDatabaseRepository.getAllLists().first())
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun insertAllLists() = runTest {
         coEvery { intervalsDao.insertAllLists(any()) } just Runs
@@ -222,7 +213,6 @@ class DefaultDatabaseRepositoryTest {
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun updateList() = runTest {
         coEvery { intervalsDao.updateList(any()) } just Runs
@@ -236,7 +226,6 @@ class DefaultDatabaseRepositoryTest {
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun deleteList() = runTest {
         coEvery { intervalsDao.deleteList(any()) } just Runs
@@ -246,6 +235,7 @@ class DefaultDatabaseRepositoryTest {
         defaultDatabaseRepository.deleteList(listEntity)
 
         coVerify {
-            intervalsDao.deleteList(any())        }
+            intervalsDao.deleteList(any())
+        }
     }
 }

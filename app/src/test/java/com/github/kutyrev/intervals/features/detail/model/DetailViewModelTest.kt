@@ -14,7 +14,6 @@ import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.verify
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
@@ -60,7 +59,6 @@ class DetailViewModelTest {
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun isShowFastAddButton() = runTest {
         every { dbRepository.getAllEvents() } returns flowOf(testListOfEntities)
@@ -85,7 +83,6 @@ class DetailViewModelTest {
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun insertNewEvent() = runTest {
         every { dbRepository.getAllEvents() } returns flowOf(testListOfEntities)
@@ -99,7 +96,6 @@ class DetailViewModelTest {
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun deleteEvent() = runTest {
         every { dbRepository.getAllEvents() } returns flowOf(testListOfEntities)
@@ -113,7 +109,6 @@ class DetailViewModelTest {
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun updateEvent() = runTest {
         every { dbRepository.getAllEvents() } returns flowOf(testListOfEntities)
@@ -127,7 +122,6 @@ class DetailViewModelTest {
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun updateList() = runTest {
         every { dbRepository.getAllEvents() } returns flowOf(testListOfEntities)
@@ -141,7 +135,6 @@ class DetailViewModelTest {
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun getAvgEventsDiffByYear() = runTest {
         every { dbRepository.getAllEvents() } returns flowOf(testListOfEntities)
@@ -158,7 +151,6 @@ class DetailViewModelTest {
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun getAvgEventsDiffByDay() = runTest {
         every { dbRepository.getAllEvents() } returns flowOf(testListOfEntities)
@@ -175,7 +167,6 @@ class DetailViewModelTest {
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun getEventsDiffByMonth() = runTest {
         every { dbRepository.getAllEvents() } returns flowOf(testListOfEntities)

@@ -12,7 +12,6 @@ import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.verify
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -46,7 +45,6 @@ class MainListViewModelTest {
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun insertNewList() = runTest {
         coEvery { dbRepository.insertAllLists(any()) } just Runs
@@ -61,7 +59,6 @@ class MainListViewModelTest {
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun deleteList() = runTest {
         coEvery { dbRepository.deleteList(any()) } just Runs
